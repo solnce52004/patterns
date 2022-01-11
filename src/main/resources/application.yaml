@@ -1,0 +1,11 @@
+server:
+  address: 0.0.0.0
+  port: 8005
+
+logging:
+  config: "classpath:log4j2.properties"
+  level:
+    ROOT: INFO
+    org:
+      springframework.web: DEBUG
+      hibernate: INFO
