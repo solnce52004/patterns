@@ -1,10 +1,9 @@
 package com.example.patterns.proxy.canonical;
 
-
 public class ProxyClient {
     public static void main(String[] args) {
         Order order = new Order(5L);
-        order.putItem("XP", 2);
+        order.putItem("XP", 2L);
 
         RealOrderService service = new RealOrderService();
         service.processOrder(order);

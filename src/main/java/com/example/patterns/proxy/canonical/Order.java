@@ -6,13 +6,13 @@ import java.util.Map;
 
 public class Order {
     private final long userId;
-    private final Map<String, Integer> items = new HashMap<>();
+    private final Map<String, Long> items = new HashMap<>();
 
     public Order(long userId) {
         this.userId = userId;
     }
 
-    public void putItem(String code, int count) {
+    public void putItem(String code, long count) {
         items.put(code, count);
     }
 
@@ -20,7 +20,7 @@ public class Order {
         return userId;
     }
 
-    public Map<String, Integer> getItems() {
+    public Map<String, Long> getItems() {
         return items;
     }
 
