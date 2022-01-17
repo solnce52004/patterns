@@ -9,6 +9,7 @@ public class SingletonEx {
         log.info(Singleton.getInstance(123).getValue());
         log.info(Singleton.getInstance(456).getValue());
 
+        log.info("Threads...");
         Thread threadFoo = new Thread(new ThreadFoo());
         Thread threadBar = new Thread(new ThreadBar());
         threadFoo.start();
@@ -37,32 +38,38 @@ class Singleton {
 
     //Double-Checked Locking
     public static Singleton getInstance(int value) {
-        Singleton result = instance;
-        if (result != null) {
-            return result;
-        }
+        //refactoring.guru
+//        Singleton result = instance;
+//        if (result != null) {
+//            return result;
+//        }
 
-        synchronized (Singleton.class) {
-            if (instance == null) {
-                instance = new Singleton(value);
+        //e.borisov
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton(value);
+                }
             }
         }
         return instance;
     }
 }
 
+@Log4j2
 class ThreadFoo implements Runnable {
     @Override
     public void run() {
         Singleton singleton = Singleton.getInstance(0);
-        System.out.println(singleton.getValue());
+        log.info(singleton.getValue());
     }
 }
 
+@Log4j2
 class ThreadBar implements Runnable {
     @Override
     public void run() {
         Singleton singleton = Singleton.getInstance(1);
-        System.out.println(singleton.getValue());
+        log.info(singleton.getValue());
     }
 }
