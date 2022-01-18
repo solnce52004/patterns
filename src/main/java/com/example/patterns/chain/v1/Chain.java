@@ -4,81 +4,85 @@ import lombok.extern.log4j.Log4j2;
 
 public class Chain {
     public static void main(String[] args) {
-        Notifier info = new InfoNotifier(Priority.INFO);
-        Notifier warning = new ErrorNotifier(Priority.WARNING);
-        Notifier error = new WarningNotifier(Priority.ERROR);
+        Notifier info = new InfoNotifier(Level.INFO);
+        Notifier warning = new WarningNotifier(Level.WARNING);
+        Notifier error = new ErrorNotifier(Level.ERROR);
 
-        info.setNextNotifier(warning);
-        warning.setNextNotifier(error);
+        info
+                .setNextNotifier(warning)
+                .setNextNotifier(error);
 
-        info.notify("Everything is OK.", Priority.INFO);
-        info.notify("Something went wrong!", Priority.WARNING);
-        info.notify("Houston, we've had a problem here!!!", Priority.ERROR);
+//        info.notify("event msg", Level.DEBUG);
+//        info.notify("event msg", Level.WARNING);
+        info.notify("event msg", Level.ERROR);
     }
 }
 
 abstract class Notifier {
-    private final int priority;
+    private final int level;
     private Notifier nextNotifier;
 
-    public Notifier(int priority) {
-        this.priority = priority;
+    public Notifier(int level) {
+        this.level = level;
     }
 
-    public void setNextNotifier(Notifier nextNotifier) {
+    public Notifier setNextNotifier(Notifier nextNotifier) {
         this.nextNotifier = nextNotifier;
+        return nextNotifier;
     }
 
-    public void notify(String message, int level) {
-        if (level >= priority) {
+    public void notify(String message, int msgLevel) {
+        if (level >= msgLevel) {
             send(message);
+            if (nextNotifier != null) {
+                nextNotifier.notify(message, msgLevel);
+            }
         }
-        if (nextNotifier != null) {
-            nextNotifier.notify(message, level);
-        }
+//        if (nextNotifier != null) {
+//            nextNotifier.notify(message, msgLevel);
+//        }
     }
 
     public abstract void send(String message);
 }
 
-class Priority {
-    public static final int INFO = 1;
-    public static final int WARNING = 2;
-    public static final int ERROR = 3;
+class Level {
+    public static final int INFO = 400;
+    public static final int WARNING = 300;
+    public static final int ERROR = 200;
 }
 
 @Log4j2
 class InfoNotifier extends Notifier {
-    public InfoNotifier(int priority) {
-        super(priority);
+    public InfoNotifier(int level) {
+        super(level);
     }
-
     @Override
     public void send(String message) {
-        log.info("INFO: Notifying using INFO report: " + message);
+        log.info("INFO: Notifying using console: " + message);
     }
 }
 
 @Log4j2
 class WarningNotifier extends Notifier {
-    public WarningNotifier(int priority) {
-        super(priority);
+    public WarningNotifier(int level) {
+        super(level);
     }
 
     @Override
     public void send(String message) {
-        log.warn("WARNING: Sending SMS to manager:" + message);
+        log.warn("WARNING: Sending SMS to manager: " + message);
     }
 }
 
 @Log4j2
 class ErrorNotifier extends Notifier {
-    public ErrorNotifier(int priority) {
-        super(priority);
+    public ErrorNotifier(int level) {
+        super(level);
     }
 
     @Override
     public void send(String message) {
-        log.error("ERROR: Sending email: " + message);
+        log.error("ERROR: Sending email to admin: " + message);
     }
 }
