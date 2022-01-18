@@ -13,8 +13,8 @@ public class Chain {
                 .setNextNotifier(error);
 
 //        info.notify("event msg", Level.DEBUG);
-//        info.notify("event msg", Level.WARNING);
-        info.notify("event msg", Level.ERROR);
+        info.notify("event msg", Level.WARNING);
+//        info.notify("event msg", Level.ERROR);
     }
 }
 
@@ -38,9 +38,6 @@ abstract class Notifier {
                 nextNotifier.notify(message, msgLevel);
             }
         }
-//        if (nextNotifier != null) {
-//            nextNotifier.notify(message, msgLevel);
-//        }
     }
 
     public abstract void send(String message);
@@ -57,6 +54,7 @@ class InfoNotifier extends Notifier {
     public InfoNotifier(int level) {
         super(level);
     }
+
     @Override
     public void send(String message) {
         log.info("INFO: Notifying using console: " + message);
