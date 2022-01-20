@@ -1,4 +1,4 @@
-package com.example.patterns.behavioral.interpreter;
+package com.example.patterns.behavioral.interpreter.v1;
 
 public class OrExpression implements Expression{
     private Expression expression1;

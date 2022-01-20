@@ -1,4 +1,4 @@
-package com.example.patterns.behavioral.mediator;
+package com.example.patterns.behavioral.mediator.v1;
 
 public class Admin implements User {
     Chat chat;

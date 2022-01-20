@@ -1,4 +1,4 @@
-package com.example.patterns.behavioral.interpreter;
+package com.example.patterns.behavioral.interpreter.v1;
 
 public class InterpreterRunner {
     public static void main(String[] args) {
