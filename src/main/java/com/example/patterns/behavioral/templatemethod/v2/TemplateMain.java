@@ -13,7 +13,7 @@ public class TemplateMain {
 }
 @Log4j2
 abstract class LayoutTemplate {
-    public void showPage() {
+    public final void showPage() { //не мб переопределен в наследниках!!!
         log.info("Header");
         showPageContent();
         log.info("Footer");
